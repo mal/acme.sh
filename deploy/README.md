@@ -269,3 +269,26 @@ export AWS_ACM_REGIONS="us-east-1,us-west-2"
 
 acme.sh --deploy -d ftp.example.com --deploy-hook aws_acm
 ```
+
+## 11. Deploy the cert to AWS S3
+
+Ensure your access key owner or role has a polcy attached that allows the
+actions `s3:PutObject` on your chosen bucket. Role credentials will be picked
+up automatically from EC2 instances and ECS containers, in other cases you must
+set `AWS_ACCESS_KEY_ID` and `AWS_SECRET_ACCESS_KEY` in your environment.
+
+```sh
+export AWS_S3_BUCKET="acme.example.com"
+export AWS_S3_PREFIX="www"
+export AWS_S3_REGION="us-east-1"
+
+acme.sh --deploy -d sub.example.com --deploy-hook aws_s3
+
+# Deploys two files, a fullchain cert and the corresponding key:
+# s3://acme.example.com/www/sub.example.com.cer
+# s3://acme.example.com/www/sub.example.com.key
+```
+
+While S3 can be a convenient place from which to distribute certificates to
+other servers, it is strongly recommended that _default encryption_ be enabled
+for the bucket being used.
