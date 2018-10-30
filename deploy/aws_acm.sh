@@ -38,7 +38,7 @@ aws_acm_deploy() {
     _json="{$(_fmt_json \
       CertificateArn "$_arn" \
       Certificate "$(_base64 <"$_ccert")" \
-      CertificateChain "$(_base64 <"$_cfullchain")" \
+      CertificateChain "$(_base64 <"$_cca")" \
       PrivateKey "$(_base64 <"$_ckey")"
     )}"
     _secure_debug2 _json "$_json"
